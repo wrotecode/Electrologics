@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 
 import { useAuth } from "@/context/AuthContext";
+import { collection, addDoc, Timestamp,} from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
@@ -46,19 +48,43 @@ export default function CheckoutPage() {
     0
   );
 
-  const handleOrder = () => {
-    if (!name || !address || !phone) {
-      alert("Please fill all fields");
+  const handleOrder = async () => {
+  if (!name || !address || !phone) {
+    alert("Please fill all fields");
 
-      return;
-    }
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "orders"), {
+      userId: user?.uid,
+
+      email: user?.email,
+
+      name,
+
+      address,
+
+      phone,
+
+      items: cart,
+
+      total,
+
+      createdAt: Timestamp.now(),
+    });
 
     alert("Order Placed Successfully");
 
     clearCart();
 
     router.push("/");
-  };
+  } catch (error) {
+    console.log(error);
+
+    alert("Something went wrong");
+  }
+};
 
   return (
     <div className="p-10 grid md:grid-cols-2 gap-10">

@@ -21,6 +21,9 @@ export default function Navbar() {
         <Link href="/products">
           Products
         </Link>
+        <Link href="/orders">
+  Orders
+</Link>
 
         <Link href="/cart">
           Cart ({cart.length})
