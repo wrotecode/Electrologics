@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 
+import Link from "next/link";
+
 import { useRouter } from "next/navigation";
 
 import { useCart } from "@/context/CartContext";
@@ -78,26 +80,22 @@ export default function CartPage() {
                   <div className="flex items-center gap-4 mt-4">
                     <button
                       onClick={() =>
-                        decreaseQuantity(
-                          item.id
-                        )
+                        decreaseQuantity(item.id)
                       }
-                      className="bg-gray-200 px-3 py-1 rounded"
+                      className="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300 transition"
                     >
                       -
                     </button>
 
-                    <p>
+                    <p className="text-lg font-semibold">
                       {item.quantity}
                     </p>
 
                     <button
                       onClick={() =>
-                        increaseQuantity(
-                          item.id
-                        )
+                        increaseQuantity(item.id)
                       }
-                      className="bg-gray-200 px-3 py-1 rounded"
+                      className="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300 transition"
                     >
                       +
                     </button>
@@ -108,7 +106,7 @@ export default function CartPage() {
                   onClick={() =>
                     removeFromCart(item.id)
                   }
-                  className="bg-red-500 text-white px-4 py-2 rounded"
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
                 >
                   Remove
                 </button>
@@ -116,9 +114,18 @@ export default function CartPage() {
             ))}
           </div>
 
-          <h2 className="text-3xl font-bold mt-10">
-            Total: ₹{total}
-          </h2>
+          <div className="mt-10">
+            <h2 className="text-3xl font-bold">
+              Total: ₹{total}
+            </h2>
+
+            <Link
+              href="/checkout"
+              className="inline-block mt-6 bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition"
+            >
+              Proceed to Checkout
+            </Link>
+          </div>
         </>
       )}
     </div>
